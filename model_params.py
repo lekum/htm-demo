@@ -31,7 +31,7 @@ MODEL_PARAMS = {
     # Model parameter dictionary.
     'modelParams': {
         # The type of inference that this model will perform
-        'inferenceType': 'TemporalMultiStep',
+        'inferenceType': 'TemporalAnomaly',
 
         'sensorParams': {
             # Sensor diagnostic output verbosity control;
@@ -42,10 +42,10 @@ MODEL_PARAMS = {
 
             # CPU usage encoder.
             'encoders': {
-                'cpu': {
-                    'fieldname': u'cpu',
+                'memory': {
+                    'fieldname': u'memory',
                     'n': 200,
-                    'name': u'cpu',
+                    'name': u'memory',
                     'type': 'ScalarEncoder',
                     'minval': 0.0,
                     'maxval': 100.0,
@@ -216,7 +216,7 @@ MODEL_PARAMS = {
 
             # This is set after the call to updateConfigFromSubConfig and is
             # computed from the aggregationInfo and predictAheadTime.
-            'steps': '5',
+            'steps': '1',
         },
 
         'trainSPNetOnlyIfRequested': False,
