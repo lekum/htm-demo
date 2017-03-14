@@ -7,6 +7,7 @@ import time
 import argparse
 import subprocess
 import json
+import shutil
 from datetime import datetime
 
 import psutil
@@ -84,6 +85,11 @@ if __name__ == "__main__":
     logging.info("Launching nupic-mysql container")
     res = subprocess.call("docker run --name nupic-mysql -e MYSQL_ROOT_PASSWORD=nupic -p 3306:3306 -d mysql:5.6".split())
     time.sleep(5)
+    logging.info("Launching nupic container")
     res = subprocess.call("docker run --name nupic -v {}/swarmdef:/swarmdef -e NTA_CONF_PROP_nupic_cluster_database_passwd=nupic -e NTA_CONF_PROP_nupic_cluster_database_host=mysql --link nupic-mysql:mysql numenta/nupic python /usr/local/src/nupic/scripts/run_swarm.py /swarmdef/search_def.json --maxWorkers=4 --overwrite".format(os.getcwd()).split())
+    logging.info("Models generated!")
+    logging.info("Cleaning up...")
     res = subprocess.call("docker rm -f nupic-mysql".split())
     res = subprocess.call("docker rm -f nupic".split())
+    shutil.copyfile("swarmdef/model_0/model_params.py", args.outfile)
+    logging.info("Output file: {}".format(args.outfile))
