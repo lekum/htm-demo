@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  htm-school-viz:
+    ports:
+      - 8080:8082
+    image: lekum/htm-school-viz
+    links:
+      - nupic-history-server
+  nupic-history-server:
+    image: lekum/nupic-history-server
