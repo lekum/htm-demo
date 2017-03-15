@@ -92,4 +92,12 @@ if __name__ == "__main__":
     res = subprocess.call("docker rm -f nupic-mysql".split())
     res = subprocess.call("docker rm -f nupic".split())
     shutil.copyfile("swarmdef/model_0/model_params.py", args.outfile)
+    f = open(args.outfile)
+    model = f.read()
+    f.close()
+    # Bug of swarming engine
+    model = model.replace("boostStrength", "maxBoost")
+    f = open(args.outfile, "w")
+    f.write(model)
+    f.close()
     logging.info("Output file: {}".format(args.outfile))
